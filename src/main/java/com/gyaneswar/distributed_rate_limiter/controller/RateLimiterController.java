@@ -1,6 +1,8 @@
 package com.gyaneswar.distributed_rate_limiter.controller;
 
 import com.gyaneswar.distributed_rate_limiter.RedisAccess.RateLimiterService;
+import com.gyaneswar.distributed_rate_limiter.RedisAccess.RateLimitAlgorithms.TokenBucket;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +16,7 @@ public class RateLimiterController {
 
     private final RateLimiterService rateLimiterService;
 
-    public RateLimiterController(RateLimiterService rateLimiterService) {
+    public RateLimiterController(@Qualifier("tokenBucket") RateLimiterService rateLimiterService) {
         this.rateLimiterService = rateLimiterService;
     }
 
