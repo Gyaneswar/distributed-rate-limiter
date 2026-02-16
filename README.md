@@ -12,17 +12,24 @@ A high-performance distributed rate limiting library built with Spring Boot and 
 
 ```
 src/main/java/com/gyaneswar/distributed_rate_limiter/
-├── RedisAccess/
-│   ├── RateLimiterService.java      # Interface for rate limiter strategies
-│   ├── TokenBucket.java             # Token Bucket algorithm implementation
-│   └── LeakyBucket.java             # Leaky Bucket (WIP)
+├── RateLimiterService/
+│   ├── RateLimiterService.java          # Interface for rate limiter strategies
+│   └── RateLimitAlgorithms/
+│       ├── TokenBucket.java             # Token Bucket algorithm implementation
+│       └── LeakyBucket.java             # Leaky Bucket (WIP)
+├── dao/
+│   ├── CacheDao.java                    # Interface for cache operations
+│   └── Redis/
+│       └── RedisDao.java                # Redis implementation of CacheDao
+├── config/
+│   └── RedisConfig.java                 # Redis bean configuration
 ├── controller/
-│   └── RateLimiterController.java   # REST endpoint for testing
+│   └── RateLimiterController.java       # REST endpoint for testing
 └── DistributedRateLimiterApplication.java
 
 src/main/resources/
 ├── scripts/
-│   └── token_bucket.lua             # Lua script for atomic token bucket ops
+│   └── token_bucket.lua                 # Lua script for atomic token bucket ops
 └── application.properties
 ```
 
