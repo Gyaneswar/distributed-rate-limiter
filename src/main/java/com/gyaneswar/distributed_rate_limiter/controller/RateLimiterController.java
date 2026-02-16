@@ -1,7 +1,6 @@
 package com.gyaneswar.distributed_rate_limiter.controller;
 
-import com.gyaneswar.distributed_rate_limiter.RedisAccess.RateLimiterService;
-import com.gyaneswar.distributed_rate_limiter.RedisAccess.RateLimitAlgorithms.TokenBucket;
+import com.gyaneswar.distributed_rate_limiter.RateLimiterService.RateLimiterService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

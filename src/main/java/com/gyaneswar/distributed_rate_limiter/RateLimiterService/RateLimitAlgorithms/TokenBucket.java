@@ -1,6 +1,6 @@
-package com.gyaneswar.distributed_rate_limiter.RedisAccess.RateLimitAlgorithms;
+package com.gyaneswar.distributed_rate_limiter.RateLimiterService.RateLimitAlgorithms;
 
-import com.gyaneswar.distributed_rate_limiter.RedisAccess.RateLimiterService;
+import com.gyaneswar.distributed_rate_limiter.RateLimiterService.RateLimiterService;
 import com.gyaneswar.distributed_rate_limiter.dao.RedisDao;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
