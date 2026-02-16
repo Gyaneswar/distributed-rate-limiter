@@ -1,5 +1,6 @@
 package com.gyaneswar.distributed_rate_limiter.RedisAccess;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
@@ -12,6 +13,15 @@ public class RateLimiterService {
 
     private final StringRedisTemplate redisTemplate;
     private final DefaultRedisScript<Long> tokenBucketScript;
+
+    @Value("${rate-limiter.max-tokens}")
+    private int maxTokens;
+
+    @Value("${rate-limiter.refill-rate}")
+    private double refillRate;
+
+    @Value("${rate-limiter.default-requested}")
+    private int defaultRequested;
 
     public RateLimiterService(StringRedisTemplate redisTemplate) {
         this.redisTemplate = redisTemplate;
@@ -46,10 +56,9 @@ public class RateLimiterService {
     }
 
     /**
-     * Convenience overload — consumes 1 token with default bucket settings.
-     * 10 max tokens, refill rate of 1 token/second.
+     * Convenience overload — consumes tokens with configured default bucket settings.
      */
     public boolean isAllowed(String key) {
-        return isAllowed(key, 10, 1.0, 1);
+        return isAllowed(key, maxTokens, refillRate, defaultRequested);
     }
 }
