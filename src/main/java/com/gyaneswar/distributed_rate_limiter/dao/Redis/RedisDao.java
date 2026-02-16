@@ -1,5 +1,6 @@
-package com.gyaneswar.distributed_rate_limiter.dao;
+package com.gyaneswar.distributed_rate_limiter.dao.Redis;
 
+import com.gyaneswar.distributed_rate_limiter.dao.CacheDao;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.stereotype.Repository;
@@ -7,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class RedisDao {
+public class RedisDao implements CacheDao {
 
     private final StringRedisTemplate stringRedisTemplate;
 

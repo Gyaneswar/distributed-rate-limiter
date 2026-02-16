@@ -1,7 +1,8 @@
 package com.gyaneswar.distributed_rate_limiter.RateLimiterService.RateLimitAlgorithms;
 
 import com.gyaneswar.distributed_rate_limiter.RateLimiterService.RateLimiterService;
-import com.gyaneswar.distributed_rate_limiter.dao.RedisDao;
+import com.gyaneswar.distributed_rate_limiter.dao.CacheDao;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
@@ -12,7 +13,7 @@ import java.util.List;
 @Service
 public class TokenBucket implements RateLimiterService {
 
-    private final RedisDao redisDao;
+    private final CacheDao cacheDao;
     private final DefaultRedisScript<Long> tokenBucketScript;
 
     @Value("${rate-limiter.max-tokens}")
@@ -24,8 +25,8 @@ public class TokenBucket implements RateLimiterService {
     @Value("${rate-limiter.default-requested}")
     private int defaultRequested;
 
-    public TokenBucket(RedisDao redisDao) {
-        this.redisDao = redisDao;
+    public TokenBucket(@Qualifier("redisDao") CacheDao cacheDao) {
+        this.cacheDao = cacheDao;
         this.tokenBucketScript = new DefaultRedisScript<>();
         this.tokenBucketScript.setLocation(new ClassPathResource("scripts/token_bucket.lua"));
         this.tokenBucketScript.setResultType(Long.class);
@@ -44,7 +45,7 @@ public class TokenBucket implements RateLimiterService {
         long nowMillis = System.currentTimeMillis();
         double nowSeconds = nowMillis / 1000.0;
 
-        Long result = redisDao.executeScript(
+        Long result = cacheDao.executeScript(
                 tokenBucketScript,
                 List.of(key),
                 String.valueOf(maxTokens),
